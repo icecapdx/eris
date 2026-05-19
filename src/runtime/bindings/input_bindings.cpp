@@ -47,15 +47,14 @@ static JSValue js_isKeyDown(JSContext* ctx, JSValue, int argc, JSValue* argv) {
     return JS_NewBool(ctx, btn ? (g_pad.buttons & btn) != 0 : 0);
 }
 
-static JSValue js_getMouseX(JSContext*, JSValue, int, JSValue*) {
-    return JS_NewInt32(nullptr, g_touchX);
+static JSValue js_getMouseX(JSContext* ctx, JSValue, int, JSValue*) {
+    return JS_NewInt32(ctx, g_touchX);
 }
-static JSValue js_getMouseY(JSContext*, JSValue, int, JSValue*) {
-    return JS_NewInt32(nullptr, g_touchY);
+static JSValue js_getMouseY(JSContext* ctx, JSValue, int, JSValue*) {
+    return JS_NewInt32(ctx, g_touchY);
 }
-static JSValue js_isMouseDown(JSContext*, JSValue, int argc, JSValue* argv) {
-    // btn 0 = left click = front touch
-    return JS_NewBool(nullptr, g_touching);
+static JSValue js_isMouseDown(JSContext* ctx, JSValue, int, JSValue*) {
+    return JS_NewBool(ctx, g_touching);
 }
 
 void vita_update_input() { vita_poll_input(); }
@@ -143,5 +142,4 @@ void register_input_bindings(JSContext* ctx, ErisRuntime*) {
     JS_SetPropertyStr(ctx, global, "quit",
         JS_NewCFunction(ctx, js_quit, "quit", 0));
     JS_FreeValue(ctx, global);
-    JS_FreeValue(ctx, input);
 }

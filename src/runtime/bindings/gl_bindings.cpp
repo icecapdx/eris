@@ -365,6 +365,8 @@ static JSValue js_createFloat32Array(JSContext* ctx, JSValue, int argc, JSValue*
 
 static JSValue js_createUint16Array(JSContext* ctx, JSValue, int argc, JSValue* argv) {
     REQUIRE_ARGS(1);
+    if (!JS_IsArray(argv[0]))
+        return JS_ThrowTypeError(ctx, "createUint16Array: expected JS Array");
     JSValue lenVal = JS_GetPropertyStr(ctx, argv[0], "length");
     int32_t len = 0; JS_ToInt32(ctx, &len, lenVal); JS_FreeValue(ctx, lenVal);
     if (len <= 0) return JS_ThrowRangeError(ctx, "createUint16Array: empty array");

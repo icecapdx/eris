@@ -147,7 +147,6 @@ bool ErisRuntime::init(const std::string& entryScript) {
     JS_SetPropertyStr(ctx, console, "warn",
         JS_NewCFunction(ctx, js_console_log,   "warn",  1));
     JS_SetPropertyStr(ctx, global, "console", console);
-    JS_FreeValue(ctx, console);
 
     JSValue raf = JS_NewCFunctionData(ctx, js_requestAnimationFrame,
                                       1, 0, 0, nullptr);

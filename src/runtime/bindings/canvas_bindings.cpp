@@ -5,8 +5,8 @@
 #include <cstdlib>
 #include <ctime>
 
-static JSValue js_performance_now(JSContext*, JSValue, int, JSValue*) {
-    return JS_NewFloat64(nullptr, (double)SDL_GetTicks64());
+static JSValue js_performance_now(JSContext* ctx, JSValue, int, JSValue*) {
+    return JS_NewFloat64(ctx, (double)SDL_GetTicks64());
 }
 
 void register_canvas_bindings(JSContext* ctx, ErisRuntime* rt) {
@@ -18,13 +18,11 @@ void register_canvas_bindings(JSContext* ctx, ErisRuntime* rt) {
     JS_SetPropertyStr(ctx, canvas, "width",  JS_NewInt32(ctx, rt->width));
     JS_SetPropertyStr(ctx, canvas, "height", JS_NewInt32(ctx, rt->height));
     JS_SetPropertyStr(ctx, global, "canvas", canvas);
-    JS_FreeValue(ctx, canvas);
 
     JSValue perf = JS_NewObject(ctx);
     JS_SetPropertyStr(ctx, perf, "now",
         JS_NewCFunction(ctx, js_performance_now, "now", 0));
     JS_SetPropertyStr(ctx, global, "performance", perf);
-    JS_FreeValue(ctx, perf);
 
     JS_SetPropertyStr(ctx, global, "window", JS_DupValue(ctx, global));
 
@@ -39,9 +37,7 @@ void register_canvas_bindings(JSContext* ctx, ErisRuntime* rt) {
             return JS_UNDEFINED;
         }, "appendChild", 1));
     JS_SetPropertyStr(ctx, doc, "body", body);
-    JS_FreeValue(ctx, body);
     JS_SetPropertyStr(ctx, global, "document", doc);
-    JS_FreeValue(ctx, doc);
 
     JS_FreeValue(ctx, global);
 }
