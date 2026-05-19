@@ -1,4 +1,4 @@
-#include <glad/gl.h>
+#include "runtime/bindings/gl_platform.h"
 #include <quickjs.h>
 #include "runtime/runtime.h"
 #include <cstdio>
@@ -466,7 +466,9 @@ void register_gl_bindings(JSContext* ctx, ErisRuntime* /*rt*/) {
     SET_CONST(gl, "UNSIGNED_SHORT",             GL_UNSIGNED_SHORT);
     SET_CONST(gl, "UNSIGNED_INT",               GL_UNSIGNED_INT);
     SET_CONST(gl, "INT",                        GL_INT);
+#ifndef __vita__
     SET_CONST(gl, "BOOL",                       GL_BOOL);
+#endif
     SET_CONST(gl, "TRIANGLES",                  GL_TRIANGLES);
     SET_CONST(gl, "TRIANGLE_STRIP",             GL_TRIANGLE_STRIP);
     SET_CONST(gl, "LINES",                      GL_LINES);
