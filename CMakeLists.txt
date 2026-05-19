@@ -27,6 +27,15 @@ set(QUICKJS_BUILD_CLI   OFF CACHE BOOL "" FORCE)
 set(CONFIG_LIBC         OFF CACHE BOOL "" FORCE)
 add_subdirectory(framework/quickjs-ng)
 
+if(VITA_BUILD)
+    foreach(_t qjs-libc qjsc qjs_exe run-test262 function_source api-test lre-test)
+        if(TARGET ${_t})
+            set_target_properties(${_t} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+        endif()
+    endforeach()
+endif()
+
+
 set(ERIS_SOURCES
     src/main.cpp
     src/runtime/runtime.cpp
